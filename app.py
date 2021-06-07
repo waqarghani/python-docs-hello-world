@@ -21,7 +21,7 @@ from src.simulation.components.callbacks import Callbacks
 from src.simulation.helper import CURRENT_YEAR
 
 # speed boat imports
-from src.utils.config import config
+#from src.utils.config import config
 
 '''
 server = flask.Flask(__name__)

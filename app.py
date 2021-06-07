@@ -16,7 +16,7 @@ from src.simulation.helper import CURRENT_YEAR
 # speed boat imports
 from src.utils.config import config
 
-
+'''
 server = flask.Flask(__name__)
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA], server=server)
@@ -195,7 +195,7 @@ class Simulation:
 
 
 simulation = Simulation(config, app)
-simulation.create_app()
+simulation.create_app() '''
 
 #if __name__ == "__main__":
     

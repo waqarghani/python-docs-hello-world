@@ -1,0 +1,88 @@
+GENERAL:
+  MODEL_NAME: elasticity_model_v0
+
+Q_ZERO_BOOSTER:
+
+  BASE_MODEL_PARAMS:
+    metric: l2
+    num_leaves: 128
+    learning_rate: 0.01
+    colsample_bytree: 0.8
+    subsample: 0.8
+    subsample_freq: 10
+    verbose: -1
+    min_child_samples: 2
+    importance_type: split
+    n_estimators: 500
+    max_depth: -1
+    random_state: 17
+    bagging_seed: 17
+    feature_fraction_seed: 17
+
+  #SAMPLE_WEIGHT: sqrt_mean_net_amount
+  SAMPLE_WEIGHT: mean_net_amount
+
+  #TARGET_COL: log_mean_quantity
+  # TARGET_COL: log_mean_quantity_rel_diff
+  TARGET_COL: log_q_calib
+
+  CATEGORICAL_FEATURE_COLS:
+    - sg_id
+    - part_desc_ger
+    - warengruppe_id
+    - lifecycle_cluster
+    #- global_discount_group_id
+    - division_code_id
+    - competitive_flag
+    - focus_part_flag
+    - reman_part_flag
+    - sps_id
+    - matching_truck_parts_flag
+
+  NUMERICAL_FEATURE_COLS:
+    - months_since_first_obs
+    - market_otc_share
+    #- year
+    - vehicle_class__actros-artics__age_cluster__0_to_4
+    - vehicle_class__actros-artics__age_cluster__8_to_12
+    - p_calib
+    - vehicle_class__actros-artics__age_cluster__>= 20
+    - vehicle_class__actros-artics__age_cluster__12_to_20
+    - vehicle_class__actros-construction__age_cluster__>= 20
+
+    - vehicle_class__ALL__age_cluster__0_to_4
+    - vehicle_class__ALL__age_cluster__12_to_20
+    - vehicle_class__ALL__age_cluster__4_to_8
+    - vehicle_class__ALL__age_cluster__8_to_12
+    - vehicle_class__ALL__age_cluster__>= 20
+    - global_discount_group_perc
+    - car_park_total
+
+  MONOTONY_CONSTRAINTS:
+    p_calib: -1
+
+  FEATURE_COLS_TO_RESET_DURING_PREDICTION:
+    p_calib: 1
+
+ELASTICITY_MODEL:
+
+  PARAMS:
+    alpha: 10
+    fit_intercept: True
+    solver: 'auto'
+
+  TARGET_COL: log_q_calib
+
+  BIAS_DIMENSIONS:
+
+  ELASTICITY_DIMENSIONS:
+    - test
+    - mc_id
+    - long_short_other
+    - otc_share_category
+    - price_category
+    - exclusive_flag
+    - competitive_flag_int
+    - cost_category
+
+  SAMPLE_WEIGHT: mean_net_amount

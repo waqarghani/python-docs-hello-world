@@ -1,0 +1,423 @@
+#########################
+# PROJECT CONFIGURATION #
+#########################
+
+year: 2021 # Reference year to run the code
+markets: ['gr', 'ch', 'ro', 'it', 'pt', 'be', 'pl', 'nl', 'at', 'se', 'es', 'de', 'cz', 'gb', 'dk', 'fr'] # markets in scope for the project
+date_format: '%Y%m' # Date format used in the project, e.g. '202001' means January 2020
+
+#####
+# I/O
+#####
+project_dir_name: 'pricing-speedboat'
+input_data_dir_path: '../speedboat_input_data' # path of the folder for the input data
+storage_dir: '../speedboat_storage' # path of the directory where outputs genertated by the
+# Speedboat code is stored
+storage_dir_path: # the dir paths where outputs are written on disk, relative to the storage_dir
+  market_cube: 'market_cube' # dir where the market cube is saved
+  global_cube: 'global_cube' # dir where the market global is saved
+  rg_ids: 'rg_ids' # dir where the market global is saved
+  alerts_monitor: 'alerts_monitor' # dir where the alerts monitor is saved
+  etl_join_report: 'etl_join_report' # dir where the etl join report is saved
+
+######
+# Data
+######
+current_year: # current years to use for the input data sources
+  presto_final_run: 2021 # last available year for presto final run
+  pep: 2021 # last available year for PEP
+  kits: 2021 # last available year for Kits data
+  bulks: 2021 # last available year for bulks data
+  vehicle_park: 2021 # last available year for VPM data
+  truck_parts: 2021 # last available year for Truck_Parts data
+
+data_years: # available years or months for each input data sources
+  mra_logistic: [2016, 2017, 2018, 2019, 2020, 2021] # available years for MRA logistic
+  mra_logistic_last_full_year: 2020 # last full year for the MRA logistic data
+  mra_logistic_last_month: '2021-03' # used to compute Moving annual total (MAT) features
+  mra_retail: [2018, 2019, 2020, 2021] # available years for MRA Retail
+  mra_retail_last_full_year: 2020 # last full year for MRA Retail
+  pep: [2016, 2017, 2018, 2019, 2020, 2021] # available years for PEP data MBGenuine
+  pep_trucks: [2018, 2019, 2020, 2021] # available years for PEP TruckParts data
+  presto_final_run: [2021] # available years for Presto final run
+  presto_price_hist_clean: [2016, 2017, 2018, 2019, 2020, 2021] # available years for Presto price history clean
+
+data:
+  mra_retail:
+    invoice_type_list: ['Without warranty & goodwill', 'Only warranty & goodwill'] # the values
+    # taken by the column invoice_type in MRA Retail data
+    sales_channel_list: ['Workshop', 'Counter'] # values taken by the column sales_channel
+
+  scope:
+    wg_subdivision: ['MB Trucks'] # Subdivision used to filter WG data
+    presto_division: [ # Divisions used to filter MRA logistic
+      '2 - LKW',
+      'K - Truck-Parts',
+      '5 - LKW-Zubehör',
+      '9 - Trailer Parts',
+      'M - Medien-Trucks',
+      'M - Medien',
+    ]
+    mra_subdivision: ['MB Trucks'] # Subdivisions used to filter MRA logistic
+
+data_mapping: # data mapping used in the ETL pipeline
+  mra_logistic_market_mapping: # mapping from the MRA logistic market ids and market names used in
+    # Speedboat
+    '535': 'gr'
+    '571': 'ch'
+    '567': 'ro'
+    '543': 'it'
+    '561': 'pt'
+    '513': 'be'
+    '559': 'pl'
+    '553': 'nl'
+    '557': 'at'
+    '569': 'se'
+    '577': 'es'
+    '200': 'de'
+    '576': 'cz'
+    '537': 'gb'
+    '517': 'dk'
+    '531': 'fr'
+  market_name_mapping: # mapping from MRA logistic market names and market names used in the
+    # Speedboat
+    Germany: 'de'
+    BeLux: 'be'
+    Denmark: 'dk'
+    France: 'fr'
+    Greece: 'gr'
+    United Kingdom: 'gb'
+    Italy: 'it'
+    Netherlands: 'nl'
+    Austria: 'at'
+    Poland: 'pl'
+    Portugal: 'pt'
+    Romania: 'ro'
+    Sweden: 'se'
+    Switzerland: 'ch'
+    Czech Republic: 'cz'
+    Spain: 'es'
+  eucon_market_mapping: # mapping from Eucon market names and market names used in the Speedboat
+    GR: 'gr'
+    CH: 'ch'
+    RO: 'ro'
+    IT: 'it'
+    PT: 'pt'
+    BE: 'be'
+    PL: 'pl'
+    NL: 'nl'
+    AT: 'at'
+    SE: 'se'
+    ES: 'es'
+    DE: 'de'
+    CZ: 'cz'
+    GB: 'gb'
+    DK: 'dk'
+    FR: 'fr'
+
+read_from_cache: # Configuration for the caching of the input data sources
+  refresh_cache: False # If True, all the cached input data sources are refreshed
+  presto_master: False # If True, Presto master data is read from cache
+  mra_logistic: False # If MRA logistic data is read from cache
+  pep: False # If True single PEP data files are read from cache
+  pep_single_file: False # If True, concatenated PEP data is read from cache
+  presto_master_mb_genuine: False # If True Presto Master is read from cache
+  mra_retail: False # If True MRA Retail data is read from cache
+  presto_final_run: False # If True Presto Final run is read from cache
+  eucon_part_level: False # If True eucon part level data is read from cache
+  aqua: False # If True aqua data is read from cache
+  pep_price_current: False # If True PEP Price Current data is read from cache
+  pep_price_hist: False # If True PEP Price History data is read from cache
+  pep_current_price: False # If True pep_current_price data is read from cache
+  presto_tnr_export: False
+  uio_kpis: False # If True UiO KPIs data is read from cache
+  applicability: True
+fill_missing_value_mappings: # Values used to fill missing values for the currency rates
+  currency_rate:
+    be: 1
+    de: 1
+    nl: 1
+
+##############
+# ETL pipeline
+#############
+etl_report:
+  etl_report_flag: False # if True, the ETL join report is generated and saved when the ETL
+  # pipeline builds the market cube
+
+revenue_group:
+  revenue_group_name_all: 'rg' # name used for the revenue group
+  revenue_group_name_m: 'rg_m' # name used for the revenue group
+  revenue_group_name_s: 'rg_s' # name used for the revenue group
+  dimensions_all: # dimensions used to compute the revenue groups
+    - 'pred_succ'
+    - 'es1'
+    - 'truckparts'
+    - 'bulks'
+    - 'kits'
+    - 'reman_parts'
+    - 'option_parts'
+    - 'es2'
+  dimensions_m: # dimensions used to compute the revenue groups
+    - 'pred_succ'
+    - 'es1'
+    - 'bulks'
+    - 'kits'
+    - 'option_parts'
+    - 'es2'
+  dimensions_s: # dimensions used to compute the revenue groups
+    - 'pred_succ'
+    - 'es1'
+    - 'option_parts'
+    - 'es2'
+  save_pred_succ_exception_report: True # if True, the pred./ succ. exceptions report is saved to
+  # disk
+  pred_succ_exception_report_dirpath: revenue_group_pred_succ_exception_report # path of the dir
+  # to save the report
+
+linking_es1s: ['', ' ', '  ', '02', '03', '04', '05', '06', '09', '24', '26', '27', '28', '29',
+               '64', '65', '67', '96'] # ES1s used to compute the
+# ES1 dimension in the revenue groups
+
+part_id_manager:
+  report_flag: True # if True an exception report is saved from the part id manager
+  report_dir_path: 'part_id_exception_report' # dir path to save the report (relative to
+  # storage_dir)
+
+cm_positive_check_flag: False # if True, in the CM computation, parts with either avg_sell_in,
+# cp_quantity or wg_quantity negative is set to nan
+
+#######
+# Rules
+#######
+rules:
+  exclude_reman_from_output: False # If True reman parts are excluded from the alerts' monitor
+  exclude_non_reman_a_posteriori: False # if True exclude reman a posteriori (double counting
+  # include non-reman
+  exclude_germany_inflation_rule: True # If True, exclude Germany from the inflation rule
+  common_border_mapping: # mapping {market in scope -> [markets in scope with common border]}
+    be: ['de', 'nl']
+    de: ['be', 'nl']
+    nl: ['be', 'de']
+  reviewer_mapping:  # mapping {market -> reviewer_name} for the non german markets
+    be: 'Eduardo Amorosino'
+    nl: 'Eduardo Amorosino'
+  es1_with_same_pricing_as_grundteil: ['02', '03', '04', '05', '06', '09', '24', '26', '27', '28',
+                                       '29', '64', '65', '67'] # for these ES1's the LLP and DG should be the same as for the Grundteil
+  es1_with_same_pricing_as_es1_80: ['81', '83', '85', '87'] # ES1s expected to have same LLP as
+  reman_es1: ['80', '81', '82','83','84','85','86','87','88','89']
+  # corresponding ES1 = 80
+  eucon_market_net_amount_threshold: 0.1 # threshold used in the Eucon rule
+
+###########
+# ML engine
+###########
+# todo document and expand this part WIP
+ml_engine:
+  report:
+    dir_path: ml_engine_report
+  num_shuffles: 5
+  num_folds: 5
+  weight_column: 'mat_market_net_amount'
+  target_column: 'current_year_pep_cm_per_unit_perc'
+
+  models:
+    elastic_net:
+      hyperparameter_grid:
+        alpha: [1, 0.5]
+        l1_ratio: [0.5]
+    random_forest:
+      hyperparameter_grid:
+        n_estimtors: [50, 100, 500]
+        max_depth: [None, 5, 10, 15]
+        max_features: ['auto', .8, .5]
+      objective: 'l1' # other options: mape, l2
+    lightgbm:
+      hyperparameter_grid:
+        n_leaves: [50, 100, 200]
+        max_depth: [5, 10, 15]
+        learning_rate: [0.01, 0.05, 0.1]
+      objective: 'mae'
+
+##########
+## MPMS
+##########
+mpms:
+  load_data_from_cache: False # load data from cache from the previous ETL run
+  cache_dir: ./src/mpms/cache/
+
+  run_id: test_run # prefix to add to the output folder
+  mpms_pipeline_year: 2019
+  max_bucket_year: 5 # max year bucket for the age clusters
+  max_year: 20 # maximum year to filter VPM count
+  min_part_qty: 0 # minimum part_qty to consider for the exchange rate
+  remove_vol_zero: False # remove rows without sales volume
+  replace_kits: True # replace kits with their individual part numbers
+  monthly_timeframes: True # use monthly instead of yearly time frames for the applicable vehicle count
+  no_partial_vehicles: False # round vehicle count to whole numbers
+  common_parts: True # Add VPM count for common parts (currently Bus (SKL O) and Unimog (SKL U) ) implemented (NOT TESTED)
+  extrapolate_exchange_rate: True # Extrapolate the exchange rates for vehicles older than max_bucket_year
+  extrapolate_exchange_rate_method: mean # method how to extrapolate the exchange rate (pandas group by methods)
+  de_vpm_workaround: True # workaround to use applicability from other countries to compensate the missing german VPM counts
+  bus_skl_code: O # old SKL code for busses. might need to be changed to the new one
+  unimog_skl_code: U # old SKL code for unimogs. might need to be changed to the new one
+
+
+
+  min_sample_size:
+    p: 0.5
+    e: 0.05
+    z: 1.96 # z factor for 95% confidence interval
+    #z: 2.58 # z factor for 99% confidence interval
+
+#####################
+# APP CONFIGURATION #
+#####################
+
+app:
+  default_port: 8080 # port to use when the app is run locally
+
+  decimals: 2 # overall rounding on the app. All KPIs will be displayed with this accuracy
+
+  # this section defines the style of the horizontal navigation tabs in the right_tabs part of the app
+  tabs_styles: {"height": "44px"} # height of the horizontal navigation tabs
+  tab_style: { # style if a tab is NOT selected
+      "borderBottom": "1px solid #d6d6d6",
+      "padding": "6px",
+      "fontWeight": "bold",
+  }
+
+  tab_selected_style: { # style if a tab IS selected
+      "borderTop": "1px solid #d6d6d6",
+      "borderBottom": "1px solid #d6d6d6",
+      "backgroundColor": "#007A93",
+      "color": "white",
+      "padding": "6px",
+  }
+
+  sizes:
+    # Column sizes. The values have arbitrary units and can be understood as weighting
+    # 6 + 3 + 3 means that the left nav gets half the size of the 3 components together
+    # 3 + 3 means that the price components share the other half
+    left_nav_component: 6
+    set_price_component: 3
+    set_volume_component: 3
+
+    # the pricing components are within a frame of 7rem width (rem is a CSS style width)
+    slider_frame_width: "7rem"
+#    nav_height: 1200 # this sets the height of the left_nav component in pixels
+    nav_height: 1350 # this sets the height of the left_nav component in pixels
+
+  colors:
+    heading: "#007A93" # this is the color for all headers in the left_nav_ and middle_slider_component
+
+  sql_data_sources: # The app is depending on the following data sources in the SQL database
+    market_cube: '[dbo].[market_cube]'
+    currency_table: '[dbo].[pep_currency_mapping]'
+    discount_table: '[dbo].[pep_dealer_discount_clean]'
+    mra_monthly: '[dbo].[mra_report_kpis]'
+    elasticity: '[dbo].[elasticity]'
+    market_factor: '[dbo].[market_factor]'
+
+  # market cube table columns to use
+  VOL_KEY: _market_cp_quantity
+  # the app works mostly with the NLP and LLP without CV!
+  # The CV is removed in the load data callback
+  NLP_KEY: next_planned_nlp_euro
+  LLP_KEY: next_planned_llp_euro
+  CV_NET_KEY: current_market_cv_net_euro
+  CV_GROSS_KEY: current_market_cv_gross_euro
+  MARKET_DISCOUNT_RATE_KEY: next_planned_discount_rate
+  MARKET_DISCOUNT_GROUP_KEY: next_planned_discount_group
+  VARIABLE_COST_KEY: _variable_cost_price
+  PROCUREMENT_COST_KEY: _procurement_cost_price
+  MRA_CM_KEY: _market_mra_logistic_gross_profit_amount
+  MRA_NR_KEY : _market_cp_net_amount
+  MC_ID: mc_id
+  MC_DESC: mc_desc
+  PART_ID: part_id
+  PART_DESC: part_desc
+  MARKET_ID: market
+#  RG_KEY: rg_id
+  RG_ID_FIXED : rg_id_fixed
+  RG_ID_FIXED_DESC : rg_id_fixed_desc
+  RG_M_KEY: rg_m_id
+  RG_S_KEY: rg_s_id
+  WG_SHARE_KEY: _market_wg_share
+
+  # mra_monthly_table columns to use
+  PREVIOUS_SUFFIX: _previous
+
+  MRA_MONTHLY_VOL_KEY: mra_logistics_cp_quantity
+  MRA_MONTHLY_CM_KEY: mra_logistics_gross_profit_euro
+  MRA_MONTHLY_NR_KEY: mra_logistics_cp_revenue_euro
+  MRA_MONTHLY_WG_NR_KEY: mra_wg_revenue_euro
+  MRA_MONTHLY_CM_LOCAL_KEY: mra_logistics_gross_profit_local_currency
+  MRA_MONTHLY_NR_LOCAL_KEY: mra_logistics_cp_revenue_local_currency
+  MRA_MONTHLY_WG_NR_LOCAL_KEY: mra_wg_revenue_local_currency
+
+  # the KPI table in the simulation tab can be configured here. the variables used here need to
+  # be created in the calculations.py
+  KPI_TABLE:
+    sales_volume_cp_manual:
+      label: Sales Volume CP (manual input)
+      actual_value: volume_cp_actual
+      sim_value: new_volume_cp
+      unit:
+#    sales_volume_cp_elasticity:
+#      label: Sales Volume CP (elasticity)
+#      actual_value: volume_cp_actual
+#      sim_value: elasticity_vol_new
+#      unit:
+    nr_cp_const_volume:
+      label: NR CP (MRA) delta price, cont. volume
+      actual_value: mra_nr_actual
+      sim_value: nr_cp_delta_price
+      unit: "cur_sign"
+    nr_cp_sim:
+      label: NR CP (MRA) delta price, delta volume
+      actual_value: mra_nr_actual
+      sim_value: nr_cp_delta_price_delta_volume
+      unit: "cur_sign"
+    nr_cp_elasticity:
+      label: NR CP (MRA) elasticity
+      actual_value: mra_nr_actual
+      sim_value: elasticity_nr_new
+      unit: "cur_sign"
+    cm_cp_const_volume:
+      label: CM CP (MRA) delta price, cont. volume
+      actual_value: mra_cm_actual
+      sim_value: cm_cp_delta_price
+      unit: "cur_sign"
+    cm_cp_sim:
+      label: CM CP (MRA) delta price, delta volume
+      actual_value: mra_cm_actual
+      sim_value: cm_cp_delta_price_delta_volume
+      unit: "cur_sign"
+#    cm_cp_elasticity:
+#      label: CM CP (MRA) elasticity
+#      actual_value: mra_cm_actual
+#      sim_value: elasticity_cm_new
+#      unit: "cur_sign"
+
+  # historical KPIs for the scenario view tab
+  years: 3
+
+######
+# SQL DB connection details
+##########
+
+sql_db_connection: # the sql connection string details
+  jdbc_driver: 'com.microsoft.sqlserver.jdbc.SQLServerDriver' # driver
+  sql_server: 'xtotruckseucspanalyticssqlsrv01.database.windows.net' # hostname or server
+  jdbc_port: '1433'
+  db_name: 'xtoTruckseucspanalyticssqldb01' # database name
+  jdbc_url:  'jdbc:sqlserver://xtotruckseucspanalyticssqlsrv01.database.windows.net:1433;databaseName=xtoTruckseucspanalyticssqldb01'
+
+######
+# ADLS Gen v2 connection details
+##########
+
+adls:
+  account_url: 'https://rsv0cspanalytics0u79j.dfs.core.windows.net/'
+  file_system_name: 'reservoir'

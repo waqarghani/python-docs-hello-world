@@ -1,0 +1,300 @@
+# Project data configuration
+# This file stores the path, extensions and information about the input data
+
+###############
+# Presto Master
+###############
+presto_master_mb_genuine:
+  tbl: 'dbo.presto_tnr_export'
+
+presto_master_mb_genuine_cache:
+  relative_path: 'cached_data/presto_master'
+  cache_extension: 'parquet'
+
+#########
+# Bulks
+########
+bulks:
+  tbl: 'dbo.bulks'
+
+#########
+# Kits
+##########
+kits:
+  tbl: 'dbo.kits'
+
+#################
+# Exclusive parts
+################
+exclusive_parts:
+  tbl: 'dbo.exclusive_parts'
+
+###############
+# Focus parts
+##############
+focus_parts:
+  tbl: 'dbo.focus_parts'
+
+#############
+# Truck parts
+##############
+truck_parts:
+  tbl: 'dbo.truck_parts'
+
+##############
+# Vehicle park
+##############
+vehicle_park: #vpm
+  tbl: 'dbo.vpm_vehicle_park_mra'
+
+##################
+# Presto final run
+##################
+presto_final_run_cache:
+  relative_path: 'cached_data/presto_final_run'
+  cache_extension: 'parquet'
+
+presto_final_run:
+  tbl: 'dbo.presto_final_run'
+
+#########
+# PEP
+########
+pep_cache:
+  relative_path: 'cached_data/pep'
+  cache_extension: 'parquet'
+
+pep:
+  adls_path: '/prod/staging/prestopep/pep_semantic_view/'
+
+
+############
+# MRA Retail
+############
+mra_retail:
+  tbl: 'dbo.mra_retail'
+
+mra_retail_cache:
+  relative_path: 'cached_data/mra_retail'
+  cache_extension: 'parquet'
+
+##############
+# MRA logistic
+##############
+mra_logistic:
+  tbl: 'dbo.mra_logistics'
+
+mra_logistic_cache:
+  relative_path: 'cached_data/mra_logistic'
+  cache_extension: 'parquet'
+
+##################
+## Dealer handling
+##################
+#dealer_handling:
+#  path:
+#  extension: 'xlsx'
+
+################
+# Market Factor
+################
+market_factor:
+  tbl: 'dbo.market_factor'
+
+##################
+# Service contract
+##################
+service_contract:
+  tbl: 'dbo.mra_service_contract'
+
+################
+# Discount rate
+################
+discount_rate_mapping:
+  tbl: 'dbo.vi_disc_rate'
+
+##################
+# List of Marketing Codes
+##################
+list_marketing_codes:
+  tbl: 'dbo.list_marketing_codes'
+
+#####################
+# Warranty & Goodwill
+######################
+wg: # version 2
+  tbl: 'dbo.mra_warranty_goodwill'
+
+#####################
+# Eucon
+######################
+eucon_part_level_cache:
+  relative_path: 'cached_data/eucon_part_level'
+  cache_extension: 'parquet'
+
+eucon_mc_level_cache:
+  relative_path: 'cached_data/eucon_mc_level'
+  cache_extension: 'parquet'
+
+eucon_mc_level:
+  tbl: 'dbo.eucon_mc_level'
+
+eucon_part_level:
+  tbl: 'dbo.eucon_part_level'
+
+#####################
+# SQL DB details for cubes
+######################
+
+market_cube:
+  tbl: 'market_cube'
+  schema: 'dbo'
+
+global_cube:
+  tbl: 'global_cube'
+  schema: 'dbo'
+
+######
+# Aqua
+######
+
+aqua: #
+  adls_dir_path: 'dev/curated/aqua/anonymized'
+
+aqua_cache:
+  relative_path: 'cached_data/aqua'
+  cache_extension: 'parquet'
+
+######
+# SCARF
+#######
+scarf:
+  adls_dir_path: "dev/curated/scarf/scarf_anonimized"
+
+#####
+# VPM cluster mapping
+######
+vpm_cluster_mapping:
+  adls_dir_path: "dev/landing/manual/vpm_cluster_mapping/vpm_cluster_mapping/"
+
+##################
+# PEP Price Current
+##################
+pep_price_current:
+  tbl: 'dbo.pep_price_data'
+
+pep_price_current_cache:
+  relative_path: 'cached_data/pep_price_current'
+  cache_extension: 'parquet'
+
+##################
+# PEP Price History
+##################
+pep_price_hist:
+  tbl: 'dbo.pep_price_hist_current'
+
+pep_price_hist_cache:
+  relative_path: 'cached_data/pep_price_hist_current'
+  cache_extension: 'parquet'
+
+##################
+# Presto Price History
+##################
+presto_price_hist:
+  tbl: 'dbo.presto_price_hist_current'
+############
+# EXtollo PEP current price
+############
+pep_current_price:
+  adls_dir_path: 'dev/curated/prestopep/pep_price_current'
+
+pep_current_price_cache:
+  relative_path: 'cached_data/pep_price_current'
+  cache_extension: 'parquet'
+
+######
+# presto_tnr_export
+######
+
+presto_tnr_export: #
+  sql_query: 'SELECT * FROM dbo.presto_tnr_export'
+
+presto_tnr_export_cache:
+  relative_path: 'cached_data/presto_tnr'
+  cache_extension: 'parquet'
+
+################
+# PEP dealer discount
+############
+pep_dealer_discount:
+  sql_query: 'SELECT * FROM dbo.pep_dealer_discount'
+
+##################
+# UiO KPIs
+##################
+uio_kpis:
+  tbl: 'dbo.uio_kpis'
+
+uio_kpis_cache:
+  relative_path: 'cached_data/uio_kpis'
+  cache_extension: 'parquet'
+
+##################
+# RG IDs
+##################
+rg_ids:
+  tbl: 'dbo.rg_ids'
+
+##################
+# Price Structures
+##################
+price_structures:
+  tbl: 'dbo.price_structures'
+
+##################
+# Clearance Parts
+##################
+clearance_parts:
+  tbl: 'dbo.clearance_parts'
+
+##################
+# Presto Price History Clean
+##################
+presto_price_hist_clean:
+  tbl: 'dbo.presto_price_hist_clean'
+
+#####
+# applicability data
+######
+applicability:
+  adls_dir_path: "dev/landing/parts_applicability/VehBR963 VehBM000-999 Date 21-01-2021 14-06/Area_Date"
+  extension: 'csv'
+
+#####################
+# SQL DB details for elasticity values
+######################
+elasticity:
+  tbl: 'dbo.elasticity'
+
+#####################
+# Iparts data
+######################
+iparts:
+  adls_dir_path: "/dev/curated/iparts/bm_to_tnr"
+  extension: 'parquet'
+
+#####################
+# SQL DB details for price proposal output
+######################
+price_proposal:
+  tbl: 'dbo.price_proposal'
+
+####################
+# SQL DB details for cubes
+######################
+
+m_cube:
+  tbl: 'dbo.market_cube'
+
+g_cube:
+  tbl: 'dbo.global_cube'

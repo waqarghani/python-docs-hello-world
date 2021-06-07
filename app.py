@@ -197,6 +197,14 @@ class Simulation:
 simulation = Simulation(config, app)
 simulation.create_app()
 
-if __name__ == "__main__":
-    simulation.app.run_server(port=app_port, debug=True, use_reloader=False)
+#if __name__ == "__main__":
+    
+    # simulation.app.run_server(port=app_port, debug=True, use_reloader=False)
     # simulation.app.run_server(port=app_port, debug=False, use_reloader=False)
+
+    from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello, Azure!"

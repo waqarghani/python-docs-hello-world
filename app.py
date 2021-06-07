@@ -1,3 +1,4 @@
+'''
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -15,7 +16,7 @@ from src.simulation.helper import CURRENT_YEAR
 
 # speed boat imports
 from src.utils.config import config
-
+'''
 '''
 server = flask.Flask(__name__)
 
@@ -202,7 +203,7 @@ simulation.create_app() '''
     # simulation.app.run_server(port=app_port, debug=True, use_reloader=False)
     # simulation.app.run_server(port=app_port, debug=False, use_reloader=False)
 
-    from flask import Flask
+from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")

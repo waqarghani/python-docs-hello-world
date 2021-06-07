@@ -1,12 +1,18 @@
-'''
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 import logging
-import flask
+#import flask
 import os
 
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello, Azure!"
+'''
 from src.simulation.plots import Plots
 from src.simulation.components.left_nav_component import Left_nav
 from src.simulation.components.middle_slider_component import Middle_slider
@@ -203,9 +209,4 @@ simulation.create_app() '''
     # simulation.app.run_server(port=app_port, debug=True, use_reloader=False)
     # simulation.app.run_server(port=app_port, debug=False, use_reloader=False)
 
-from flask import Flask
-app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Hello, Azure!"

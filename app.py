@@ -12,14 +12,14 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "Hello, Azure!"
-
+'''
 from src.simulation.plots import Plots
 from src.simulation.components.left_nav_component import Left_nav
 from src.simulation.components.middle_slider_component import Middle_slider
 from src.simulation.components.right_tabs import Right_tabs
 from src.simulation.components.callbacks import Callbacks
 from src.simulation.helper import CURRENT_YEAR
-
+'''
 # speed boat imports
 #from src.utils.config import config
 

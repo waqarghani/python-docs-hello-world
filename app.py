@@ -6,15 +6,15 @@ import logging
 #import flask
 import os
 
-'''from flask import Flask
+from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
     return "Hello, Nikhil!"
+
+
 '''
-
-
 import os
 from flask import Flask
 from src.utils.sql_reader import SqlReader
@@ -41,7 +41,7 @@ return var
 if __name__ == "__main__":
 app.run(port=app_port)
 
-
+'''
 
 
 '''

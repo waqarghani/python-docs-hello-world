@@ -6,12 +6,44 @@ import logging
 #import flask
 import os
 
-from flask import Flask
+'''from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello, Azure!"
+    return "Hello, Nikhil!"
+'''
+
+
+import os
+from flask import Flask
+from src.utils.sql_reader import SqlReader
+app = Flask(__name__)
+# get optional environment variables
+if "SQL_FLAG" in os.environ: sql_flag = os.environ["SQL_FLAG"]
+else: sql_flag = "True"
+if "APP_PORT" in os.environ: app_port = os.environ["APP_PORT"]
+else: app_port = 80
+if os.name == "nt": ENVIRONMENT = "vm"
+else: ENVIRONMENT = "azure_web_app"
+try: sql_reader = SqlReader(environment=ENVIRONMENT); status = 1
+except: status = 0
+@app.route('/')
+def hello_world():
+print('*** Using Port: ', app_port)
+print('*** Environment: ', ENVIRONMENT)
+print('*** SQL Connection Status: ', status)
+var = 'Hello, User...'
+if status: connection_status = ' Connection to dB: Successful'
+else: connection_status = ' Connection to dB: Un-successful'
+var += connection_status
+return var
+if __name__ == "__main__":
+app.run(port=app_port)
+
+
+
+
 '''
 from src.simulation.plots import Plots
 from src.simulation.components.left_nav_component import Left_nav
